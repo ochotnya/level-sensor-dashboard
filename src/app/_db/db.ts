@@ -21,7 +21,7 @@ export const getSensorData = async (from: string, to: string) => {
   const connection = await connectToDb()
 
   const [rows] = await connection.execute(
-    `select * from ${dbName}.SensorData where reading_time between ? and ?`,
+    `select * from ${dbName}.SensorData where reading_time between ? and ? order by reading_time asc`,
     [from, to],
   )
 
