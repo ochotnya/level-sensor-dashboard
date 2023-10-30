@@ -2,21 +2,9 @@ import mysql, { Pool } from 'mysql2/promise'
 import { SensorData } from '~/app/_components/MeasurementsContext'
 
 const dbName = process.env.DB_NAME ?? 'levelSensor'
-let pool: Pool | undefined = undefined
 
-export const connectToDb = async () => {
-  console.log('Creating pool...') //eslint-disable-line no-console
-
-  if (typeof pool !== 'undefined') {
-    console.log('Pool exists') //eslint-disable-line no-console
-    return pool
-  }
-
-  pool = mysql.createPool(process.env.DATABASE_URL ?? '')
-
-  console.log('Pool created') //eslint-disable-line no-console
-  return pool
-}
+const connectToDb = async () =>
+  mysql.createConnection(process.env.DATABASE_URL ?? '')
 
 const mapSensorRow = (row: any): SensorData => ({
   id: row.id,
@@ -29,30 +17,23 @@ const mapSensorRow = (row: any): SensorData => ({
 })
 
 export const getSensorData = async (from: string, to: string) => {
-  if (!pool) {
-    return
-  }
-
-  const connection = await pool.getConnection()
+  const connection = await connectToDb()
 
   const [rows] = await connection.execute(
     `select * from ${dbName}.SensorData where reading_time between ? and ?`,
     [from, to],
   )
 
+  connection.end()
   return (rows as any[]).map(mapSensorRow)
 }
 
 export const getLastLevelReading = async () => {
-  if (!pool) {
-    return
-  }
-
-  const connection = await pool.getConnection()
+  const connection = await connectToDb()
 
   const [rows] = await connection.execute(
     `select * from ${dbName}.SensorData order by reading_time desc limit 1`,
   )
-
+  connection.end()
   return (rows as any[]).map(mapSensorRow)[0]
 }

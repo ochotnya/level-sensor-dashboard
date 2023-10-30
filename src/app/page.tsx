@@ -4,8 +4,7 @@ import Dashboard from '~/app/_components/Dashboard'
 import MeasurementsContextProvider, {
   SensorData,
 } from '~/app/_components/MeasurementsContext'
-
-import { connectToDb, getSensorData } from '~/app/_db/db'
+import { getSensorData } from '~/app/_db/db'
 
 type SearchParams = {
   from?: string
@@ -16,7 +15,6 @@ const DashboardPage = async ({
 }: {
   searchParams: SearchParams
 }) => {
-  await connectToDb()
   const now = DateTime.now()
   let data: SensorData[] | undefined = await getSensorData(
     from ?? DateTime.now().minus({ days: 7 }).toISO() ?? '',
