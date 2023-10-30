@@ -29,7 +29,7 @@ const SensorDataTable = ({ data }: Props) => {
         {data.map((row) => (
           <Table.Row key={row.id}>
             <Table.Cell>{row.sensorID}</Table.Cell>
-            <Table.Cell>{row.distance}</Table.Cell>
+            <Table.Cell>{row.distance} mm</Table.Cell>
             <Table.Cell>{row.voltage} V</Table.Cell>
             <Table.Cell>{row.RSSI}</Table.Cell>
             <Table.Cell>{row.SNR}</Table.Cell>

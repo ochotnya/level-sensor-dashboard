@@ -1,4 +1,5 @@
-import mysql, { Pool } from 'mysql2/promise'
+import mysql from 'mysql2/promise'
+import { Config } from '~/app/_components/ConfigContext'
 import { SensorData } from '~/app/_components/MeasurementsContext'
 
 const dbName = process.env.DB_NAME ?? 'levelSensor'
@@ -36,4 +37,20 @@ export const getLastLevelReading = async () => {
   )
   connection.end()
   return (rows as any[]).map(mapSensorRow)[0]
+}
+
+export const getConfig = async (): Promise<Config> => {
+  const connection = await connectToDb()
+
+  const [rows] = await connection.execute(`select * from ${dbName}.Config`)
+
+  connection.end()
+
+  const data = (rows as any[])[0]
+  return {
+    distanceCritical: data.distanceCritical,
+    distanceEmpty: data.distanceEmpty,
+    distanceFull: data.distanceFull,
+    distanceWarning: data.distanceWarning,
+  }
 }

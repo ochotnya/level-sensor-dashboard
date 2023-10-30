@@ -4,7 +4,7 @@ import Dashboard from '~/app/_components/Dashboard'
 import MeasurementsContextProvider, {
   SensorData,
 } from '~/app/_components/MeasurementsContext'
-import { getSensorData } from '~/app/_db/db'
+import { getConfig, getSensorData } from '~/app/_db/db'
 
 type SearchParams = {
   from?: string
@@ -21,16 +21,11 @@ const DashboardPage = async ({
     to ?? now.toISO() ?? '',
   )
 
+  const config = await getConfig()
+
   return (
     <div>
-      <ConfigContextProvider
-        config={{
-          distanceCritical: 70,
-          distanceEmpty: 500,
-          distanceFull: 50,
-          distanceWarning: 100,
-        }}
-      >
+      <ConfigContextProvider config={config}>
         <MeasurementsContextProvider data={data}>
           <Dashboard />
         </MeasurementsContextProvider>

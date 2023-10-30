@@ -2,7 +2,7 @@
 
 import { createContext, PropsWithChildren, useContext } from 'react'
 
-type Config = {
+export type Config = {
   distanceEmpty: number
   distanceFull: number
   distanceWarning: number

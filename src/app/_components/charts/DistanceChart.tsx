@@ -59,10 +59,10 @@ const DistanceChart = () => {
             },
             y: {
               ticks: {
-                callback: (value, index, ticks) => `${value} cm`,
+                callback: (value, index, ticks) => `${value} mm`,
               },
-              min: config.distanceFull,
-              max: config.distanceEmpty,
+              min: 0,
+              max: 4500,
             },
           },
         }}

@@ -13,8 +13,9 @@ const FillChart = ({ data }: Props) => {
   const { config } = useConfigContext()
 
   const currentDistance = data.distance ?? 0
+
   const progress = Math.ceil(
-    ((config.distanceEmpty - currentDistance) /
+    ((currentDistance - config.distanceFull) /
       (config.distanceEmpty - config.distanceFull)) *
       100,
   )
