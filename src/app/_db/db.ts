@@ -1,6 +1,7 @@
 import mysql, { Pool } from 'mysql2/promise'
 import { SensorData } from '~/app/_components/MeasurementsContext'
 
+const dbName = process.env.DB_NAME ?? 'levelSensor'
 let pool: Pool | undefined = undefined
 
 export const connectToDb = async () => {
@@ -11,11 +12,7 @@ export const connectToDb = async () => {
     return pool
   }
 
-  pool = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-  })
+  pool = mysql.createPool(process.env.DATABASE_URL ?? '')
 
   console.log('Pool created') //eslint-disable-line no-console
   return pool
@@ -39,7 +36,7 @@ export const getSensorData = async (from: string, to: string) => {
   const connection = await pool.getConnection()
 
   const [rows] = await connection.execute(
-    'select * from levelSensor.SensorData where reading_time between ? and ?',
+    `select * from ${dbName}.SensorData where reading_time between ? and ?`,
     [from, to],
   )
 
@@ -54,7 +51,7 @@ export const getLastLevelReading = async () => {
   const connection = await pool.getConnection()
 
   const [rows] = await connection.execute(
-    'select * from levelSensor.SensorData order by reading_time desc limit 1',
+    `select * from ${dbName}.SensorData order by reading_time desc limit 1`,
   )
 
   return (rows as any[]).map(mapSensorRow)[0]
