@@ -14,12 +14,7 @@ const Dashboard = () => {
     <div>
       <div className="text-xl">Dashboard</div>
       <Tabs.Group style="underline" className="outline-none focus:outline-none">
-        <Tabs.Item
-          active
-          icon={HiPresentationChartLine}
-          title="Wykresy"
-          className="outline-none focus:outline-none"
-        >
+        <Tabs.Item active icon={HiPresentationChartLine} title="Wykresy">
           <SensorCharts />
         </Tabs.Item>
         <Tabs.Item active icon={HiTable} title="Tabela pomiarów">

@@ -8,8 +8,13 @@ type Props = {
 }
 const SensorDataTable = ({ data }: Props) => {
   if (!data || !data.length) {
-    return <div>No data</div>
+    return (
+      <div className="flex justify-center text-2xl text-gray-400">
+        Brak danych
+      </div>
+    )
   }
+
   return (
     <Table>
       <Table.Head>
