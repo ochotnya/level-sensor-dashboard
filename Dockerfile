@@ -7,7 +7,7 @@ ENV PORT 3000
 
 COPY . .
 
-RUN npm install
+RUN npm install --omit=dev
 RUN npm run build
 
 EXPOSE ${PORT}

@@ -9,10 +9,6 @@ NC='\033[0m'
 echo "${CYAN}Pulling master from repository...${NC}"
 git pull
 
-echo "${CYAN}Building Docker container...${NC}"
-docker build -t level-sensor-dashboard .
-
-
 if [ "$(docker ps -a | grep -c $CONTAINER_NAME)" -gt 0 ]; then
     echo "${YELLOW}Stop and remove old container...${NC}"
     docker stop $CONTAINER_NAME
@@ -20,6 +16,9 @@ if [ "$(docker ps -a | grep -c $CONTAINER_NAME)" -gt 0 ]; then
     docker rmi $CONTAINER_NAME
     echo "${YELLOW}Old container removed${NC}"
 fi
+
+echo "${CYAN}Building Docker container...${NC}"
+docker build -t level-sensor-dashboard .
 
 echo "${CYAN}Deploying fresh container...${NC}"
 docker run --name $CONTAINER_NAME -dp 3000:3000 level-sensor-dashboard
