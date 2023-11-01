@@ -1,4 +1,5 @@
 !#/usr/bin/bash
+set -e
 CONTAINER_NAME=level-sensor-dashboard
 CYAN='\033[0;36m'
 YELLOW='\033[0;33m'
@@ -16,6 +17,7 @@ if [ "$(docker ps -a | grep -c $CONTAINER_NAME)" -gt 0 ]; then
     echo "${YELLOW}Stop and remove old container...${NC}"
     docker stop $CONTAINER_NAME
     docker rm $CONTAINER_NAME
+    docker rmi $CONTAINER_NAME
     echo "${YELLOW}Old container removed${NC}"
 fi
 
